@@ -10,7 +10,7 @@ resource "aws_vpc" "this" {
 }
 
 # Public Subnet
-resource "aws_subnet" "public_b" {
+resource "aws_subnet" "public_d" {
   vpc_id     = aws_vpc.this.id
   cidr_block = "10.0.0.0/24"
   availability_zone = "ap-northeast-1d"
@@ -32,9 +32,8 @@ resource "aws_subnet" "public_c" {
   }
 }
 
-
 # Private Subnet
-resource "aws_subnet" "private_b" {
+resource "aws_subnet" "private_d" {
   vpc_id     = aws_vpc.this.id
   cidr_block = "10.0.2.0/24"
   availability_zone = "ap-northeast-1d"
@@ -64,7 +63,8 @@ resource "aws_internet_gateway" "this" {
   }
 }
 
-resource "aws_eip" "nat" {
+# eip for natgw_d
+resource "aws_eip" "for_natgw_d" {
   vpc = true
 
   tags = {
@@ -72,13 +72,32 @@ resource "aws_eip" "nat" {
   }
 }
 
-# Nat Gateway
-resource "aws_nat_gateway" "this" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public_b.id
+# eip for natgw_c
+resource "aws_eip" "for_natgw_c" {
+  vpc = true
 
   tags = {
-    Name = "ngw_${var.service}"
+    Name = "nat_gateway_eip_${var.service}"
+  }
+}
+
+# Nat Gateway b
+resource "aws_nat_gateway" "natgw_d" {
+  allocation_id = aws_eip.for_natgw_d.id
+  subnet_id     = aws_subnet.public_d.id
+
+  tags = {
+    Name = "ngw_${var.service}_d"
+  }
+}
+
+# Nat Gateway b
+resource "aws_nat_gateway" "natgw_c" {
+  allocation_id = aws_eip.for_natgw_c.id
+  subnet_id     = aws_subnet.public_c.id
+
+  tags = {
+    Name = "ngw_${var.service}_c"
   }
 }
 
@@ -96,17 +115,35 @@ resource "aws_default_route_table" "this" {
   }
 }
 
-# Private Route table
-resource "aws_route_table" "this" {
+# Private Route table b
+resource "aws_route_table" "private_routing_table_d" {
   vpc_id  = aws_vpc.this.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.this.id
+    gateway_id = aws_nat_gateway.natgw_d.id
   }
 
   tags = {
-    Name = "private_route_table_${var.service}"
+    Name = "private_route_table_${var.service}_d"
+  }
+
+  lifecycle {
+    ignore_changes = ["*"]
+  }
+}
+
+# Private Route table c
+resource "aws_route_table" "private_routing_table_c" {
+  vpc_id  = aws_vpc.this.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_nat_gateway.natgw_c.id
+  }
+
+  tags = {
+    Name = "private_route_table_${var.service}_c"
   }
 
   lifecycle {
@@ -115,8 +152,8 @@ resource "aws_route_table" "this" {
 }
 
 # route table associate
-resource "aws_route_table_association" "public_b" {
-  subnet_id      = aws_subnet.public_b.id
+resource "aws_route_table_association" "public_d" {
+  subnet_id      = aws_subnet.public_d.id
   route_table_id = aws_default_route_table.this.id
 }
 
@@ -127,14 +164,14 @@ resource "aws_route_table_association" "public_c" {
 
 
 # route table associate
-resource "aws_route_table_association" "private_b" {
-  subnet_id      = aws_subnet.private_b.id
-  route_table_id = aws_route_table.this.id
+resource "aws_route_table_association" "private_d" {
+  subnet_id      = aws_subnet.private_d.id
+  route_table_id = aws_route_table.private_routing_table_d.id
 }
 
 # route table associate
 resource "aws_route_table_association" "private_c" {
   subnet_id      = aws_subnet.private_c.id
-  route_table_id = aws_route_table.this.id
+  route_table_id = aws_route_table.private_routing_table_c.id
 }
 

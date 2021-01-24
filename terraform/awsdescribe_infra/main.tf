@@ -22,14 +22,14 @@ module "backends-host" {
 module "alb" {
     source              = "./module/alb"
     vpc_id              = module.vpc.vpc_id
-    subnets             = [module.vpc.public_subnet_b_id,module.vpc.public_subnet_c_id]
+    subnets             = [module.vpc.public_subnet_d_id,module.vpc.public_subnet_c_id]
     service             = local.service
 }
 
 module "ecs" {
     source              = "./module/ecs"
     vpc_id              = module.vpc.vpc_id
-    subnets             = [module.vpc.private_subnet_b_id,module.vpc.private_subnet_c_id]
+    subnets             = [module.vpc.private_subnet_d_id,module.vpc.private_subnet_c_id]
     alb_sg              = module.alb.alb_sg_id
     lb_target_group     = module.alb.alb_target_arn
     service             = local.service
