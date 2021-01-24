@@ -1,8 +1,8 @@
 ## Infra Architecture
-<img width="885" alt="KakaoTalk_20210124_144102088" src="https://user-images.githubusercontent.com/19552819/105622318-ef004180-5e53-11eb-8d95-35dacc79bc99.png">
+<img width="883" alt="KakaoTalk_20210124_160900930" src="https://user-images.githubusercontent.com/19552819/105623961-4eb11980-5e61-11eb-8f7d-b7f0aa9caf82.png">
 
 ## App Architecture
-<img width="820" alt="KakaoTalk_20210124_144102088_01" src="https://user-images.githubusercontent.com/19552819/105622319-f0316e80-5e53-11eb-8197-ca0bb588cdf6.png">
+<img width="818" alt="KakaoTalk_20210124_160900930_01" src="https://user-images.githubusercontent.com/19552819/105623963-4fe24680-5e61-11eb-948e-2df552ed4731.png">
 
 - web
     - django

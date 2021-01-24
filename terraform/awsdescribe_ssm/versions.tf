@@ -8,8 +8,8 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "aws-describe-terraform-log"
-    key    = "ssm/terraform.tfstate"
+    bucket = "s3_bucket_name"
+    key    = "path/to/state_file"
     region = "ap-northeast-1"
   }
 }

@@ -9,7 +9,7 @@ terraform {
 
   backend "s3" {
     bucket = "s3 bucket"
-    key    = [path/to/state.file"
+    key    = "path/to/state.file"
     region = "ap-northeast-1"
   }
 }
