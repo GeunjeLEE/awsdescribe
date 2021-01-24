@@ -1,0 +1,6 @@
+test_tools/
+__pycache__/
+.terraform
+.env
+supervisord.log
+supervisord.pid

@@ -1,0 +1,132 @@
+{% load static %}
+{% include 'common/header.html' %}
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        {% include 'common/sidebar.html' %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                {% include 'common/topbar.html' %}
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">EC2</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+                        <!-- DataTales for EC2 -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">EC2 list in all account</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>env</th>
+                                                <th>id</th>
+                                                <th>state</th>
+                                                <th>privateip</th>
+                                                <th>publicip</th>
+                                                <th>tags</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>env</th>
+                                                <th>id</th>
+                                                <th>state</th>
+                                                <th>privateip</th>
+                                                <th>publicip</th>
+                                                <th>tags</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {% if ec2_list %}
+                                            {% for ec2_info in ec2_list %}
+                                            <tr>
+                                                <td>{{ ec2_info.ae_index.ae_name }}-{{ ec2_info.ae_index.ae_env }}</td>
+                                                <td>{{ ec2_info.ec2_id }}</td>
+                                                {% if ec2_info.ec2_state == "stopped" %}
+                                                    <td style="color : #E26E6E" >
+                                                {% elif ec2_info.ec2_state == "running" %}
+                                                    <td style="color : #87ee9d" >
+                                                {% else %}
+                                                    <td>
+                                                {% endif %}
+                                                    {{ ec2_info.ec2_state }}
+                                                </td>
+                                                <td>{% for privateip in ec2_info.ec2_privateip %} {{ privateip }}<br> {% endfor %}</td>
+                                                <td>{% for ec2_publicip in ec2_info.ec2_publicip %} {{ ec2_publicip }}<br> {% endfor %}</td>
+                                                <td>
+                                                    {% if ec2_info.ec2_tags == 'None' %}
+                                                        {{ ec2_info.ec2_tags }}
+                                                    {% else %}
+                                                        {% for k,v in ec2_info.ec2_tags.items %}
+                                                            [{{ k }}] : {{ v }} <br>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% else %}
+                                            <tr>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+
+            {% include 'common/footer.html' %}
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'app_awsdescribe/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'app_awsdescribe/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'app_awsdescribe/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'app_awsdescribe/js/sb-admin-2.min.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'app_awsdescribe/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'app_awsdescribe/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'app_awsdescribe/js/demo/datatables-demo.js' %}"></script>
+</body>
+
+</html>

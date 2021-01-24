@@ -1,0 +1,63 @@
+
+
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'app_awsdescribe:index' %}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">aws describe</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'app_awsdescribe:index' %}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+
+    <!-- Nav Item - Environments -->
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'app_awsdescribe:environment_list' %}">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Environments</span></a>
+    </li>
+
+    <!-- Nav Item - Data batch -->
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'app_awsdescribe:data_batch' %}">
+            <i class="fas fa-fw fa-clipboard-list"></i>
+            <span>Data batch</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Resources
+    </div>
+
+    <!-- Nav Item - Ec2 -->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'app_awsdescribe:ec2_list' %}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Ec2</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - User -->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'app_awsdescribe:user_list' %}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>User</span>
+        </a>
+    </li>
+
+</ul>
+<!-- End of Sidebar -->

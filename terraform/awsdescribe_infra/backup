@@ -1,0 +1,17 @@
+locals {
+    service             = "awsdescribe"
+}
+
+
+
+module "ecs" {
+    source              = "./module/ecs"
+    vpc_id              = module.VPC.vpc_id
+    subnets             = [module.VPC.private_subnet_b_id,module.VPC.private_subnet_c_id]
+    alb_sg              = module.alb.alb_sg_id
+    lb_target_group     = module.alb.alb_target_arn
+    service             = local.service
+    container_df_env_values  = {
+        "DATABASE_NAME"            = data.terraform_remote_state.engagement_database.outputs.rds_aurora_database_name
+    }
+}
