@@ -2,7 +2,7 @@
   {
     "essential": true,
     "name": "dajngo",
-    "image": "748552758785.dkr.ecr.ap-northeast-1.amazonaws.com/awsdescribe-repo:latest",
+    "image": "image_url",
     "entryPoint": ["sh","-c"],
     "command": ["python manage.py migrate && supervisord -c ./supervisord.conf"],
     "cpu": 0,
@@ -22,7 +22,7 @@
   {
     "essential": false,
     "name": "redis",
-    "image": "748552758785.dkr.ecr.ap-northeast-1.amazonaws.com/awsdescribe-repo:redis",
+    "image": "iamge_url",
     "cpu": 0,
     "memory": null,
     "memoryReservation": null,
