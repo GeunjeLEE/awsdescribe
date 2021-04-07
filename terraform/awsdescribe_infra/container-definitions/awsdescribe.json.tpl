@@ -2,13 +2,12 @@
   {
     "essential": true,
     "name": "dajngo",
-    "image": "image_url",
+    "image": "foo",
     "entryPoint": ["sh","-c"],
     "command": ["python manage.py migrate && supervisord -c ./supervisord.conf"],
     "cpu": 0,
     "memory": null,
     "memoryReservation": null,
-    "essential": true,
     "portMappings": [
       {
         "containerPort": 8000,
@@ -22,11 +21,10 @@
   {
     "essential": false,
     "name": "redis",
-    "image": "iamge_url",
+    "image": "foo",
     "cpu": 0,
     "memory": null,
     "memoryReservation": null,
-    "essential": true,
     "portMappings": [
       {
         "containerPort": 6379,

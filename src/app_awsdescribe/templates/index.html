@@ -44,11 +44,11 @@
 
                         <!-- EC2s -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 EC2
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ ec2_count }}</div>
@@ -60,14 +60,15 @@
 
                         <!-- User -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 User
                                             </div>
-                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ user_count }}</div>
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ user_count }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -76,19 +77,69 @@
 
                         <!-- RDS -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                RDS
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                RDS Cluster
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Coming Soon...</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ rds_cluster_count }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- VPCs -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                VPC
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ vpc_count }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subnets -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Subnet
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ subnet_count }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sg -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Sg
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ sg_count }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Content Row -->

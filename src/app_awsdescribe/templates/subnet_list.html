@@ -1,0 +1,132 @@
+{% load static %}
+{% include 'common/header.html' %}
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        {% include 'common/sidebar.html' %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                {% include 'common/topbar.html' %}
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Subnet</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+                        <!-- DataTales for EC2 -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Subnet list in all account</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>env</th>
+                                                <th>id</th>
+                                                <th>AvailabilityZone</th>
+                                                <th>AvailabilityZoneId</th>
+                                                <th>CidrBlock</th>
+                                                <th>VpcId</th>
+                                                <th>AssignIpv6AddressOnCreation</th>
+                                                <th>Tags</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>env</th>
+                                                <th>id</th>
+                                                <th>AvailabilityZone</th>
+                                                <th>AvailabilityZoneId</th>
+                                                <th>CidrBlock</th>
+                                                <th>VpcId</th>
+                                                <th>AssignIpv6AddressOnCreation</th>
+                                                <th>Tags</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {% if subnet_list %}
+                                            {% for subnet_info in subnet_list %}
+                                            <tr>
+                                                <td>{{ subnet_info.ae_index.ae_name }}-{{ subnet_info.ae_index.ae_env }}</td>
+                                                <td>{{ subnet_info.subnet_id }}</td>
+                                                <td>{{ subnet_info.availability_zone }}</td>
+                                                <td>{{ subnet_info.availability_zone_id }}</td>
+                                                <td>{{ subnet_info.cidr_block }}</td>
+                                                <td>{{ subnet_info.vpc_id }}</td>
+                                                <td>{{ subnet_info.assign_ipv6 }}</td>
+                                                <td>
+                                                    {% if subnet_info.subnet_tags == 'None' %}
+                                                    {{ subnet_info.subnet_tags }}
+                                                    {% else %}
+                                                    {% for k,v in subnet_info.subnet_tags.items %}
+                                                    [{{ k }}] : {{ v }} <br>
+                                                    {% endfor %}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% else %}
+                                            <tr>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                                <td>no data</td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+
+            {% include 'common/footer.html' %}
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'app_awsdescribe/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'app_awsdescribe/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'app_awsdescribe/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'app_awsdescribe/js/sb-admin-2.min.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'app_awsdescribe/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'app_awsdescribe/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'app_awsdescribe/js/demo/datatables-demo.js' %}"></script>
+</body>
+
+</html>

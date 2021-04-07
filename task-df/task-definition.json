@@ -1,0 +1,154 @@
+{
+  "ipcMode": null,
+  "executionRoleArn": "foo",
+  "containerDefinitions": [
+    {
+      "dnsSearchDomains": null,
+      "environmentFiles": null,
+      "logConfiguration": null,
+      "entryPoint": [
+        "sh",
+        "-c"
+      ],
+      "portMappings": [
+        {
+          "hostPort": 8000,
+          "protocol": "tcp",
+          "containerPort": 8000
+        }
+      ],
+      "command": [
+        "python manage.py migrate && supervisord -c ./supervisord.conf"
+      ],
+      "linuxParameters": {
+        "initProcessEnabled": true
+      },
+      "cpu": 0,
+      "environment": [
+        {
+          "name": "BROKER_URL",
+          "value": "redis://127.0.0.1:6379/0"
+        },
+        {
+          "name": "DB_HOST",
+          "value": "10.0.3.190"
+        },
+        {
+          "name": "DB_NAME",
+          "value": "awsdescribe"
+        }
+      ],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": null,
+      "mountPoints": [],
+      "workingDirectory": null,
+      "secrets": [
+        {
+          "valueFrom": "ACCESS_KEY_ID-awsdescribe",
+          "name": "AWS_ACCESS_KEY_ID"
+        },
+        {
+          "valueFrom": "SECRET_ACCESS_KEY-awsdescribe",
+          "name": "AWS_SECRET_ACCESS_KEY"
+        },
+        {
+          "valueFrom": "DB_PWD-awsdescribe",
+          "name": "DB_PWD"
+        },
+        {
+          "valueFrom": "DB_USER-awsdescribe",
+          "name": "DB_USER"
+        },
+        {
+          "valueFrom": "SECRET_KEY-awsdescribe",
+          "name": "SECRET_KEY"
+        }
+      ],
+      "dockerSecurityOptions": null,
+      "memory": null,
+      "memoryReservation": null,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "foo",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": null,
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": null,
+      "essential": true,
+      "links": null,
+      "hostname": null,
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": null,
+      "systemControls": null,
+      "privileged": null,
+      "name": "dajngo"
+    },
+    {
+      "dnsSearchDomains": null,
+      "environmentFiles": null,
+      "logConfiguration": null,
+      "entryPoint": null,
+      "portMappings": [
+        {
+          "hostPort": 6379,
+          "protocol": "tcp",
+          "containerPort": 6379
+        }
+      ],
+      "command": null,
+      "linuxParameters": {
+        "initProcessEnabled": true
+      },
+      "cpu": 0,
+      "environment": [],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": null,
+      "mountPoints": [],
+      "workingDirectory": null,
+      "secrets": null,
+      "dockerSecurityOptions": null,
+      "memory": null,
+      "memoryReservation": null,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "foo",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": null,
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": null,
+      "essential": true,
+      "links": null,
+      "hostname": null,
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": null,
+      "systemControls": null,
+      "privileged": null,
+      "name": "redis"
+    }
+  ],
+  "placementConstraints": [],
+  "memory": "2048",
+  "taskRoleArn": "foo",
+  "family": "awsdescribe_service",
+  "pidMode": null,
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "cpu": "1024",
+  "inferenceAccelerators": null,
+  "proxyConfiguration": null,
+  "volumes": []
+}

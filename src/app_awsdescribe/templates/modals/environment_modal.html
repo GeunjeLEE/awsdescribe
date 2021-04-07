@@ -1,0 +1,482 @@
+<!-- account insert Modal-->
+<div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="RegisterNewAccount" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="RegisterNewAccount">Register a new account</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="{% url 'app_awsdescribe:insert_account_info' %}" method="post">
+                <!-- 基本情報 -->
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <label for="service-name" class="col-sm-2 col-form-label">service name <span style="color:red">*</span></label>
+                        <div class="col-sm-6">
+                            <input type="text" id="service-name" class="form-control" placeholder="サービス名前 ex)auportal"
+                                name="ae_name" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="account-id" class="col-sm-2 col-form-label">account id[1] <span style="color:red">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" id="account-id-1st" class="form-control" placeholder="アカウント ID" name="ae_id[]"
+                                required>
+                        </div>
+                        <div class="col-sm-2">
+                            <select class="form-control" name="ae_env[]" required>
+                                <option value="" selected>choose...</option>
+                                <option>all</option>
+                                <option>dev</option>
+                                <option>stg</option>
+                                <option>prd</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="account-id" class="col-sm-2 col-form-label">account id[2]</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="account-id-2nd" class="form-control" placeholder="アカウント ID" name="ae_id[]">
+                        </div>
+                        <div class="col-sm-2">
+                            <select class="form-control" name="ae_env[]">
+                                <option value="" selected>choose...</option>
+                                <option>all</option>
+                                <option>dev</option>
+                                <option>stg</option>
+                                <option>prd</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="account-id" class="col-sm-2 col-form-label">account id[3]</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="account-id-3rd" class="form-control" placeholder="アカウント ID" name="ae_id[]">
+                        </div>
+                        <div class="col-sm-2">
+                            <select class="form-control" name="ae_env[]">
+                                <option value="" selected>choose...</option>
+                                <option>all</option>
+                                <option>dev</option>
+                                <option>stg</option>
+                                <option>prd</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <br>
+                    <h5 class="modal-title" id="RegisterNewAccount">Detail</h5>
+                    <hr>
+
+                    <!-- 詳細情報 -->
+                    <div class="row mb-3">
+                        <label for="detail-use" class="col-sm-2 col-form-label">use</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="detail-use" class="form-control" placeholder="用途 ex)auポータル" name="detail_use" >
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-domain" class="col-sm-2 col-form-label">domain</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="detail-domain" class="form-control" placeholder="ex)hogehoge.mediba.jp" name="detail_domain" >
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-agency" class="col-sm-2 col-form-label">agency</label>
+                        <div class="col-sm-6">
+                            <select id="detail-agency" class="form-control" name="detail_account_agency">
+                                <option value="" selected>choose...</option>
+                                <option>Class method</option>
+                                <option>KDDI 社内向け認定 AWS</option>
+                                <option>Iret</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-monitoring" class="col-sm-2 col-form-label">monitoring</label>
+                        <div class="col-sm-6">
+                            <select id="detail-monitoring" class="form-control" name="detail_monitoring">
+                                <option value="" selected>choose...</option>
+                                <option>KCCS</option>
+                                <option>Datadog</option>
+                                <option>Mackerel</option>
+                                <option>Datadog/Twilio</option>
+                                <option>Mackerel/Twilio</option>
+                                <option>Datadog/AmazonConnect</option>
+                                <option>Mackerel/AmazonConnect</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-sre" class="col-sm-2 col-form-label">SRE</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="detail-sre" class="form-control" placeholder="SRE担当者名前" name="detail_sre" >
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-developer" class="col-sm-2 col-form-label">developer</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="detail-developer" class="form-control" placeholder="担当開発者名前" name="detail_developer" >
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-product" class="col-sm-2 col-form-label">product</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="detail-product" class="form-control" placeholder="Product名前" name="detail_product" >
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-product" class="col-sm-2 col-form-label">os account MGMT</label>
+                        <div class="col-sm-2">
+                            <select id="detail-monitoring_prd_all" class="form-control" name="detail_os_account_management[]">
+                                <option value="" selected>PRD/ALL</option>
+                                <option>akamane</option>
+                                <option>shiromane v1</option>
+                                <option>shiromane v2</option>
+                                <option>OpsWorks</option>
+                                <option>AWS SSM</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <select id="detail-monitoring_stg" class="form-control" name="detail_os_account_management[]">
+                                <option value="" selected>STG</option>
+                                <option>akamane</option>
+                                <option>shiromane v1</option>
+                                <option>shiromane v2</option>
+                                <option>OpsWorks</option>
+                                <option>AWS SSM</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <select id="detail-monitoring_dev" class="form-control" name="detail_os_account_management[]">
+                                <option value="" selected>DEV</option>
+                                <option>akamane</option>
+                                <option>shiromane v1</option>
+                                <option>shiromane v2</option>
+                                <option>OpsWorks</option>
+                                <option>AWS SSM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="detail_watchman" id="watchman" value=1>
+                        <label class="form-check-label" for="watchman">Watchman</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="detail_vulsan" id="Vulsan" value=1>
+                        <label class="form-check-label" for="Vulsan">Vulsan</label>
+                    </div>
+
+
+                    <br>
+                    <br>
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="必要なコメント" id="floatingTextarea2" style="height: 100px" name="detail_comment"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" type="submit">Insert</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- account modify Modal-->
+<div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="RegisterNewAccount" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="RegisterNewAccount">Register a new account</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form method="post">
+                <!-- 基本情報 -->
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <label for="service-name" class="col-sm-2 col-form-label">service name <span style="color:red">*</span></label>
+                        <div class="col-sm-6">
+                            <input type="text" id="modify-service-name" class="form-control" name="ae_name" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="account-id" class="col-sm-2 col-form-label">account id[1] <span style="color:red">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" id="modify-account-id-1st" class="form-control" name="ae_id[]"
+                                required>
+                        </div>
+                        <div class="col-sm-2">
+                            <select class="form-control" id="modify-env-1st" name="ae_env[]" required>
+                                <option value="" selected>choose...</option>
+                                <option>all</option>
+                                <option>dev</option>
+                                <option>stg</option>
+                                <option>prd</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="account-id" class="col-sm-2 col-form-label">account id[2]</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="modify-account-id-2nd" class="form-control" name="ae_id[]">
+                        </div>
+                        <div class="col-sm-2">
+                            <select class="form-control" id="modify-env-2nd" name="ae_env[]">
+                                <option value="" selected>choose...</option>
+                                <option>all</option>
+                                <option>dev</option>
+                                <option>stg</option>
+                                <option>prd</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="account-id" class="col-sm-2 col-form-label">account id[3]</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="modify-account-id-3rd" class="form-control" name="ae_id[]">
+                        </div>
+                        <div class="col-sm-2">
+                            <select class="form-control" id="modify-env-3rd" name="ae_env[]">
+                                <option value="" selected>choose...</option>
+                                <option>all</option>
+                                <option>dev</option>
+                                <option>stg</option>
+                                <option>prd</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <br>
+                    <h5 class="modal-title" id="RegisterNewAccount">Detail</h5>
+                    <hr>
+
+                    <!-- 詳細情報 -->
+                    <div class="row mb-3">
+                        <label for="detail-use" class="col-sm-2 col-form-label">use</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="modify-detail-use" class="form-control" name="detail_use" >
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-domain" class="col-sm-2 col-form-label">domain</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="modify-detail-domain" class="form-control" name="detail_domain" >
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-agency" class="col-sm-2 col-form-label">agency</label>
+                        <div class="col-sm-6">
+                            <select id="modify-detail-agency" class="form-control" name="detail_account_agency">
+                                <option value="" selected>choose...</option>
+                                <option>Class method</option>
+                                <option>KDDI 社内向け認定 AWS</option>
+                                <option>Iret</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-monitoring" class="col-sm-2 col-form-label">monitoring</label>
+                        <div class="col-sm-6">
+                            <select id="modify-detail-monitoring" class="form-control" name="detail_monitoring">
+                                <option value="" selected>choose...</option>
+                                <option>KCCS</option>
+                                <option>Datadog</option>
+                                <option>Mackerel</option>
+                                <option>Datadog/Twilio</option>
+                                <option>Mackerel/Twilio</option>
+                                <option>Datadog/AmazonConnect</option>
+                                <option>Mackerel/AmazonConnect</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-sre" class="col-sm-2 col-form-label">SRE</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="modify-detail-sre" class="form-control" name="detail_sre" >
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-developer" class="col-sm-2 col-form-label">developer</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="modify-detail-developer" class="form-control" name="detail_developer" >
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-product" class="col-sm-2 col-form-label">product</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="modify-detail-product" class="form-control" name="detail_product" >
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="detail-product" class="col-sm-2 col-form-label">os account MGMT</label>
+                        <div class="col-sm-2">
+                            <select id="modify-detail-monitoring_prd_all" class="form-control" name="detail_os_account_management[]">
+                                <option value="" selected>PRD/ALL</option>
+                                <option>akamane</option>
+                                <option>shiromane v1</option>
+                                <option>shiromane v2</option>
+                                <option>OpsWorks</option>
+                                <option>AWS SSM</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <select id="modify-detail-monitoring_stg" class="form-control" name="detail_os_account_management[]">
+                                <option value="" selected>STG</option>
+                                <option>akamane</option>
+                                <option>shiromane v1</option>
+                                <option>shiromane v2</option>
+                                <option>OpsWorks</option>
+                                <option>AWS SSM</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <select id="modify-detail-monitoring_dev" class="form-control" name="detail_os_account_management[]">
+                                <option value="" selected>DEV</option>
+                                <option>akamane</option>
+                                <option>shiromane v1</option>
+                                <option>shiromane v2</option>
+                                <option>OpsWorks</option>
+                                <option>AWS SSM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="modify-detail-Watchman" type="checkbox" name="detail_watchman" value=1>
+                        <label class="form-check-label" for="watchman">Watchman</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="modify-detail-Vulsan" type="checkbox" name="detail_vulsan" value=1>
+                        <label class="form-check-label" for="Vulsan">Vulsan</label>
+                    </div>
+
+
+                    <br>
+                    <br>
+                    <div class="form-floating">
+                        <textarea class="form-control" id="modify-detail-comment" style="height: 100px" name="detail_comment"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-info" type="submit" onclick="javascript: form.action='{% url 'app_awsdescribe:update_account_info' %}'">Modify</button>
+                    <button class="btn btn-danger" type="submit" onclick="javascript: form.action='{% url 'app_awsdescribe:delete_account_info' %}'">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- account information view Modal-->
+<div class="modal fade" id="detailViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">account infomation</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <!-- 1 -->
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">用途</th>
+                                    <th scope="col">主要ドメイン</th>
+                                    <th scope="col">agency</th>
+                                    <th scope="col">監視</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="view_detail_use"></td>
+                                    <td id="view_detail_domain"></td>
+                                    <td id="view_detail_account_agency"></td>
+                                    <td id="view_detail_monitoring"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- 2 -->
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">SRE 担当</th>
+                                    <th scope="col">開発担当</th>
+                                    <th scope="col">プロダクト</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="view_detail_sre"></td>
+                                    <td id="view_detail_developer"></td>
+                                    <td id="view_detail_product"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- 3 -->
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col" colspan="3">OSアカウント管理</th>
+                                </tr>
+                                <tr>
+                                    <th scope="col">prd/all</th>
+                                    <th scope="col">stg</th>
+                                    <th scope="col">dev</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="view_detail_os_account_management_prd_all"></td>
+                                    <td id="view_detail_os_account_management_stg"></td>
+                                    <td id="view_detail_os_account_management_dev"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- Badge Area -->
+                        <span class="badge bg-info text-dark" id="view_detail_watchman" style="display: none;">Watchman</span>
+                        <span class="badge bg-info text-dark" id="view_detail_vulsan" style="display: none;">Vulsan</span>
+
+                        <!-- Comment -->
+                        <br>
+                        <br>
+                        <div class="form-floating">
+                            <textarea class="form-control" id="view_detail_comment" style="height: 100px" name="detail_comment" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -46,10 +46,19 @@ class AwsDescriber:
 
             # get User Policies
             Policies = []
-            List_of_Policies =  client.list_user_policies(UserName=UserName)
-            if List_of_Policies.get('PolicyNames'):
-                result['user_Policies'] = List_of_Policies['PolicyNames']
-            else:
+            List_of_inline_Policies =  client.list_user_policies(UserName=UserName)
+            if List_of_inline_Policies.get('PolicyNames'):
+                for List_of_inline_Policy in List_of_inline_Policies['PolicyNames']:
+                    Policies.append(List_of_inline_Policy)
+
+            List_of_managed_Policies = client.list_attached_user_policies(UserName=UserName)
+            for AttachedPolicy in List_of_managed_Policies['AttachedPolicies']:
+                if AttachedPolicy.get('PolicyName') and AttachedPolicy['PolicyName'] != "goa-sec_protection":
+                    Policies.append(AttachedPolicy['PolicyName'])
+
+            if Policies :
+                result['user_Policies'] = Policies
+            else :
                 result['user_Policies'] = [None]
 
             # get User Groups
@@ -85,17 +94,17 @@ class AwsDescriber:
             # get MFA Device Configure infomation
             List_of_MFA_Devices = client.list_mfa_devices(UserName=UserName)
             if not len(List_of_MFA_Devices['MFADevices']):
-                result['user_isMFADeviceConfigured'] = False   
+                result['user_isMFADeviceConfigured'] = False
             else:
                 result['user_isMFADeviceConfigured'] = True
 
             # append all infomaion of user
             user_info_list.append(result)
-        
+
         return user_info_list
 
     def ec2_describe(self,session):
-        client = session.client('ec2', region_name='ap-northeast-1')
+        client = session.client('ec2')
         ec2 = client.describe_instances()
 
         ec2_info_list = []
@@ -137,3 +146,141 @@ class AwsDescriber:
                 ec2_info_list.append(result)
 
         return ec2_info_list
+
+    def rds_describe(self,session):
+        client = session.client('rds', region_name='ap-northeast-1')
+        rds_cluster = client.describe_db_clusters()
+
+        rds_info_list = []
+        for cluster_info in rds_cluster['DBClusters']:
+            result = {}
+
+            result['rds_cluster_resource_id'] = cluster_info['DbClusterResourceId']
+
+            result['rds_cluster_identifier'] = cluster_info['DBClusterIdentifier']
+
+            result['rds_cluster_status'] = cluster_info['Status']
+
+            result['rds_cluster_engine'] = cluster_info['Engine']
+
+            result['rds_cluster_engineVersion'] = cluster_info['EngineVersion']
+
+            rds_instance_members = []
+            for member in cluster_info['DBClusterMembers']:
+                rds_instance_members.append(member['DBInstanceIdentifier'])
+            result['rds_instance_mebers'] = rds_instance_members
+
+            rds_info_list.append(result)
+
+        return rds_info_list
+
+    def vpc_describe(self,session):
+        client = session.client('ec2')
+        vpc = client.describe_vpcs()
+
+        vpc_info_list = []
+
+        for vpc in vpc['Vpcs']:
+            result = {}
+
+            result['VpcId'] = vpc['VpcId']
+            result['CidrBlock'] = vpc['CidrBlock']
+            result['IsDefault'] = vpc['IsDefault']
+
+            if vpc.get("Tags"):                                         # {'Tags': [{'Key': 'Name', 'Value': 'point-habits-cloud9'}]}
+                tags = {}
+                for vpc_tag_list in vpc["Tags"]:                        # vpc["Tags"]  = [{'Key': 'Name', 'Value': 'point-habits-cloud9'}]
+                    tags[vpc_tag_list["Key"]] = vpc_tag_list["Value"]   # vpc_tag_list = {'Key': 'Name', 'Value': 'point-habits-cloud9'}
+                result["Tags"] = tags                                   # tags         = {'Name': 'point-habits-cloud9'}
+            else:
+                result["Tags"] = "None"
+
+            vpc_info_list.append(result)
+
+        return vpc_info_list
+
+    def subnet_describe(self, session):
+        client = session.client('ec2')
+        subnet = client.describe_subnets()
+
+        subnet_info_list = []
+
+        for s in subnet['Subnets']:
+            result = {}
+
+            result['SubnetId'] = s['SubnetId']
+            result['AvailabilityZone'] = s['AvailabilityZone']
+            result['AvailabilityZoneId'] = s['AvailabilityZoneId']
+            result['CidrBlock'] = s['CidrBlock']
+            result['VpcId'] = s['VpcId']
+            result['AssignIpv6AddressOnCreation'] = s['AssignIpv6AddressOnCreation']
+
+            if s.get("Tags"):
+                tags = {}
+                for tag_list in s["Tags"]:
+                    tags[tag_list["Key"]] = tag_list["Value"]
+                result["Tags"] = tags
+            else:
+                result["Tags"] = "None"
+
+            subnet_info_list.append(result)
+
+        return subnet_info_list
+
+    def sg_describe(self, session):
+        client = session.client('ec2')
+        sg = client.describe_security_groups()
+
+        sg_info_list = []
+        ip_list = []
+
+        for s in sg['SecurityGroups']:
+            result = {}
+            result["VpcId"] = s["VpcId"]
+            result["GroupId"] = s["GroupId"]
+            result["Description"] = s["Description"]
+            result["GroupName"] = s["GroupName"]
+
+            if s.get("IpPermissions"):
+                ip_permission = {}
+                for permission in s["IpPermissions"]:
+                    ip_permission["FromPort"] = permission["FromPort"] if permission["IpProtocol"] != '-1' else '-1'
+                    ip_permission["ToPort"] = permission["ToPort"] if permission["IpProtocol"] != '-1' else '-1'
+                    if permission.get("IpRanges"):
+                        ip_raw_list = list(map(lambda p: p["CidrIp"], permission["IpRanges"]))
+                        ip_permission["IpRanges"] = ",".join(ip_raw_list)
+                        ip_list.extend(ip_raw_list)
+                    if permission.get("Ipv6Ranges"):
+                        ip_raw_list = list(map(lambda p: p["CidrIpv6"], permission["Ipv6Ranges"]))
+                        ip_permission["Ipv6Ranges"] = ",".join(ip_raw_list)
+                        ip_list.extend(ip_raw_list)
+                result["IpPermissions"] = ip_permission
+
+            if s.get("IpPermissionsEgress"):
+                ip_permission_egress = {}
+                for permission in s["IpPermissionsEgress"]:
+                    ip_permission_egress["FromPort"] = permission["FromPort"] if permission["IpProtocol"] != '-1' else '-1'
+                    ip_permission_egress["ToPort"] = permission["ToPort"] if permission["IpProtocol"] != '-1' else '-1'
+                    if permission.get("IpRanges"):
+                        ip_raw_list = list(map(lambda p: p["CidrIp"], permission["IpRanges"]))
+                        ip_permission_egress["IpRanges"] = ",".join(ip_raw_list)
+                        ip_list.extend(ip_raw_list)
+                    if permission.get("Ipv6Ranges"):
+                        ip_raw_list = list(map(lambda p: p["CidrIpv6"], permission["Ipv6Ranges"]))
+                        ip_permission_egress["Ipv6Ranges"] = ",".join(ip_raw_list)
+                        ip_list.extend(ip_raw_list)
+                result["IpPermissionsEgress"] = ip_permission_egress
+            # TODO: PrefixListIds, UserIdGroupPairsは一旦無視
+
+            if s.get("Tags"):
+                tags = {}
+                for tag_list in s["Tags"]:
+                    tags[tag_list["Key"]] = tag_list["Value"]
+                result["Tags"] = tags
+            else:
+                result["Tags"] = "None"
+
+            sg_info_list.append(result)
+            unique_ip_list = list(set(ip_list))
+
+        return sg_info_list, unique_ip_list

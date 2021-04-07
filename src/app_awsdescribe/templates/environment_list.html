@@ -22,6 +22,9 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Environments</h1>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#insertModal"><i
+                            class="fas fa-download fa-sm text-white-50"></i> insert
+                        </a>
                     </div>
 
                     <!-- Content Row -->
@@ -36,18 +39,18 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>project name</th>
+                                                <th>service name</th>
                                                 <th>env</th>
                                                 <th>Account id</th>
-                                                <th>update date</th>
+                                                <th>-</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>project name</th>
+                                                <th>service name</th>
                                                 <th>env</th>
                                                 <th>Account id</th>
-                                                <th>update date</th>
+                                                <th>-</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
@@ -57,7 +60,10 @@
                                                 <td>{{ environment_info.ae_name }}</td>
                                                 <td>{{ environment_info.ae_env }}</td>
                                                 <td>{{ environment_info.ae_id }}</td>
-                                                <td>{{ environment_info.ae_update|date:"T Y-m-j D H:i:s" }}</td>
+                                                <td style="text-align:center">
+                                                    <a href="#" class="badge badge-info" onclick="viewDetail( '{{ environment_info.ae_name }}' )" >Info</a>
+                                                    <a href="#" class="badge badge-warning" onclick="modifyInfo( '{{ environment_info.ae_name }}' )">Modify</a>
+                                                </td>
                                             </tr>
                                             {% endfor %}
                                             {% else %}
@@ -87,6 +93,8 @@
     </div>
     <!-- End of Page Wrapper -->
 
+    {% include 'modals/environment_modal.html' %}
+
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'app_awsdescribe/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'app_awsdescribe/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -103,6 +111,77 @@
 
     <!-- Page level custom scripts -->
     <script src="{% static 'app_awsdescribe/js/demo/datatables-demo.js' %}"></script>
+
+    <!-- Ajax Script -->
+    <script>
+        function viewDetail(ae_name){
+            $.ajax({
+                type: 'POST',
+                url: '{% url "app_awsdescribe:get_account_detail" %}',
+                data: {detail_name:ae_name},
+                dataType: 'json',
+                success: function(result){
+                    console.log(result)
+                    $("#view_detail_use").html(result.detail_use)
+                    $("#view_detail_domain").html(result.detail_domain)
+                    $("#view_detail_account_agency").html(result.detail_account_agency)
+                    $("#view_detail_monitoring").html(result.detail_monitoring)
+                    $("#view_detail_sre").html(result.detail_sre)
+                    $("#view_detail_developer").html(result.detail_developer)
+                    $("#view_detail_product").html(result.detail_product)
+                    $("#view_detail_os_account_management_prd_all").html(result.detail_os_account_management[0])
+                    $("#view_detail_os_account_management_stg").html(result.detail_os_account_management[1])
+                    $("#view_detail_os_account_management_dev").html(result.detail_os_account_management[2])
+                    result.detail_vulsan ? $("#view_detail_vulsan").show() : $("#view_detail_vulsan").hide()
+                    result.detail_watchman ? $("#view_detail_watchman").show() : $("#view_detail_watchman").hide()
+                    $("#view_detail_comment").val(result.detail_comment)
+
+                    $("#detailViewModal").modal("show")
+                },
+                error: function(e){
+                    alert('An error has occurred : ' + e)
+                }
+            });
+        }
+
+        function modifyInfo(ae_name){
+            $.ajax({
+                type: 'POST',
+                url: '{% url "app_awsdescribe:get_account_information_for_modify" %}',
+                data: {ae_name:ae_name},
+                dataType: 'json',
+                success: function(result){
+                    console.log(result)
+                    $("#modify-service-name").val(result.ae_name)
+                    $("#modify-account-id-1st").val(result.ae_id_prd_all)
+                    $("#modify-account-id-2nd").val(result.ae_id_stg != "none" ? result.ae_id_stg : "")
+                    $("#modify-account-id-3rd").val(result.ae_id_dev != "none" ? result.ae_id_dev : "")
+                    $("#modify-env-1st").val(result.ae_env_prd_all)
+                    $("#modify-env-2nd").val(result.ae_env_stg != "none" ? result.ae_env_stg : "")
+                    $("#modify-env-3rd").val(result.ae_env_dev != "none" ? result.ae_env_dev : "")
+
+                    $("#modify-detail-use").val(result.detail_use)
+                    $("#modify-detail-domain").val(result.detail_domain)
+                    $("#modify-detail-agency").val(result.detail_account_agency != "none" ? result.detail_account_agency : "")
+                    $("#modify-detail-monitoring").val(result.detail_monitoring != "none" ? result.detail_monitoring : "")
+                    $("#modify-detail-sre").val(result.detail_sre)
+                    $("#modify-detail-developer").val(result.detail_developer)
+                    $("#modify-detail-product").val(result.detail_product)
+                    $("#modify-detail-monitoring_prd_all").val(result.detail_os_account_management[0] != "none" ? result.detail_os_account_management[0] : "")
+                    $("#modify-detail-monitoring_stg").val(result.detail_os_account_management[1] != "none" ? result.detail_os_account_management[1] : "")
+                    $("#modify-detail-monitoring_dev").val(result.detail_os_account_management[2] != "none" ? result.detail_os_account_management[2] : "")
+                    $("#modify-detail-Vulsan").prop('checked', result.detail_vulsan ? true : false)
+                    $("#modify-detail-Watchman").prop('checked', result.detail_watchman ? true : false)
+                    $("#modify-detail-comment").val(result.detail_comment)
+
+                    $("#modifyModal").modal("show")
+                },
+                error: function(e){
+                    alert('An error has occurred : ' + e)
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

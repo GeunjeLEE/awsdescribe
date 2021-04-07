@@ -1,5 +1,3 @@
-
-
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -58,6 +56,38 @@
             <span>User</span>
         </a>
     </li>
+
+    <!-- Nav Item - Rds Cluster-->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'app_awsdescribe:rds_cluster_list' %}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Rds Cluster</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Vpc-->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'app_awsdescribe:vpc_list' %}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Vpc</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Subnet-->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'app_awsdescribe:subnet_list' %}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Subnet</span>
+        </a>
+    </li>
+
+        <!-- Nav Item - Sg-->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'app_awsdescribe:sg_list' %}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Sg</span>
+            </a>
+        </li>
 
 </ul>
 <!-- End of Sidebar -->
